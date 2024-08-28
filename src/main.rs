@@ -2,10 +2,12 @@ use axum::{Router, routing::{get}};
 use std::net::SocketAddr;
 use tokio::net::TcpListener;
 
+pub mod database;
 pub mod auth;
 use auth::auth::{
     create_auth_router
 };
+pub use database::database::{db};
 
 
 

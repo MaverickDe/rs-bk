@@ -1,2 +1,2 @@
-public mod manager;
-public mod database
+
+pub mod database;

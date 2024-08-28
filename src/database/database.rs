@@ -1,4 +1,4 @@
-use serde::{Deserialize, Serialize};
+// use serde::{Deserialize, Serialize};
 use surrealdb::engine::remote::ws::Ws;
 use surrealdb::opt::auth::Root;
 use surrealdb::sql::Thing;
@@ -21,7 +21,7 @@ struct Person<'a> {
 struct Student<'a> {
     entrylevel: &'a str,
     currentlevel: &'a str,
-    userId: &'a str,
+    user_id: &'a str,
     first: &'a str,
     last: &'a str,
     
@@ -38,10 +38,10 @@ struct Record {
     id: Thing,
 }
 
-#[tokio::main]
-async fn main() -> surrealdb::Result<()> {
+
+pub async fn db() -> surrealdb::Result<Surreal<surrealdb::engine::remote::ws::Client>> {
     // Connect to the server
-    let db = Surreal::new::<Ws>("127.0.0.1:8000").await?;
+    let db: Surreal<surrealdb::engine::remote::ws::Client> = Surreal::new::<Ws>("127.0.0.1:8000").await?;
 
     // Signin as a namespace, database, or root user
     db.signin(Root {
@@ -53,39 +53,10 @@ async fn main() -> surrealdb::Result<()> {
     // Select a specific namespace / database
     db.use_ns("test").use_db("test").await?;
 
-    
 
-    // Create a new person with a random id
-    let created: Vec<Record> = db
-        .create("person")
-        .content(Person {
-            title: "Founder & CEO",
-            name: Name {
-                first: "Tobie",
-                last: "Morgan Hitchcock",
-            },
-            marketing: true,
-        })
-    .await?;
-    dbg!(created);
 
-    // Update a person record with a specific id
-    let updated: Option<Record> = db
-        .update(("person", "jaime"))
-        .merge(Responsibility { marketing: true })
-        .await?;
-    dbg!(updated);
 
-    // Select all people records
-    let people: Vec<Record> = db.select("person").await?;
-    dbg!(people);
 
-    // Perform a custom advanced query
-    let groups = db
-        .query("SELECT marketing, count() FROM type::table($table) GROUP BY marketing")
-        .bind(("table", "person"))
-        .await?;
-    dbg!(groups);
 
-    Ok(())
+    Ok(db)
 }
