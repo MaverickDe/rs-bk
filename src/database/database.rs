@@ -1,8 +1,27 @@
-// use serde::{Deserialize, Serialize};
+use serde::{Deserialize, Serialize};
 use surrealdb::engine::remote::ws::Ws;
 use surrealdb::opt::auth::Root;
 use surrealdb::sql::Thing;
 use surrealdb::Surreal;
+
+
+#[derive(Debug, Serialize)]
+pub struct new_student_jamb_y1 {
+    first_name: String,
+    middle_name: String,
+    last_name: String,
+    address: String,
+    email: String,
+    phone_number: String,
+    jamb_number: String,
+    age: u32,
+}
+#[derive(Debug, Serialize)]
+pub struct testt<'a> {
+   pub first_name: &'a String,
+    
+}
+
 
 #[derive(Debug, Serialize)]
 struct Name<'a> {

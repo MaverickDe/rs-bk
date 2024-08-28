@@ -2,22 +2,36 @@
 use axum::{
     routing::{get,post, Router},
     response::Html,
+    Json,
+
     extract::Path,
     http::StatusCode,
 };
 
+use crate::{new_student_jamb_y1,testt };
 
 
- async fn directentry() -> &'static str {
+
+
+
+
+
+ async fn direct_entry() -> &'static str {
+    let s =String::from("F");
+    let c =  testt{first_name:&s};
+    println!("{:?}",c);
     "Hello world!"
 }
- async fn newstudent() -> &'static str {
-    "Hello world!"
-}
+//  async fn jamb_applicant_Y1(Json(payload): Json<new_student_jamb_y1>) -> Json<new_student_jamb_y1>  {
+//     // println!("{:?}" , x);
+//     println!(payload)
+//     "Hello world!"
+// }
 
-pub fn create_auth_router() -> Router {
+pub fn applicant() -> Router {
     Router::new()
-        .post("/directentry", get(directentry)).post("/new",post(newstudent))
+        .route("/directentry", get(direct_entry))
+        // .post("/jambapplicant",post(new_student_jamb_y1))
 
 
 }
